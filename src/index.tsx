@@ -16,7 +16,6 @@ import "./index.css";
 const Main = () => {
   return (
     <Canvas
-      orthographic
       camera={{ fov: 90, position: [0, 0, 5] }}
       style={{ width: "100%", height: "100%" }}
     >
