@@ -1,43 +1,34 @@
-import ReactDOM from 'react-dom'
-import React, { useRef, useState, Props } from 'react'
-import { Canvas, useFrame } from 'react-three-fiber'
-import './index.css';
+import ReactDOM from "react-dom";
+import React from "react";
+import { Canvas } from "react-three-fiber";
+import { KeyLight } from "./gl/lights/KeyLight";
+import { BackDrop } from "./gl/geom/BackDrop";
+import { FillLight } from "./gl/lights/FillLight";
+import { RimLight } from "./gl/lights/RimLight";
 
-interface BoxProps {
-  position: number[];
-}
+import { MapControls } from "drei";
 
-function Box(props: BoxProps) {
-  // This reference will give us direct access to the mesh
-  const mesh = useRef();
+import { Vector3 } from "three";
+import { Whiteboard } from "./gl/whiteboard/Whiteboard";
 
-  // Set up state for the hovered and active state
-  const [hovered, setHover] = useState(false)
-  const [active, setActive] = useState(false)
+import "./index.css";
 
-  // Rotate mesh every frame, this is outside of React without overhead
-  // @ts-ignore
-  useFrame(() => (mesh.current.rotation.x = mesh.current.rotation.y += 0.01))
-
+const Main = () => {
   return (
-    <mesh
-      ref={mesh}
-      scale={active ? [1.5, 1.5, 1.5] : [1, 1, 1]}
-      onClick={(e) => setActive(!active)}
-      onPointerOver={(e) => setHover(true)}
-      onPointerOut={(e) => setHover(false)}>
-      <boxBufferGeometry attach="geometry" args={[2, 2, 2]} />
-      <meshStandardMaterial attach="material" color={hovered ? 'hotpink' : 'orange'} />
-    </mesh>
-  )
-}
+    <Canvas
+      orthographic
+      camera={{ fov: 90, position: [0, 0, 5] }}
+      style={{ width: "100%", height: "100%" }}
+    >
+      <BackDrop />
+      <KeyLight brightness={5.6} color="#ffbdf4" />
+      <FillLight brightness={2.6} color="#bdefff" />
+      <RimLight brightness={54} color="#fff" />
+      <Whiteboard position={new Vector3(0, 0, 0)} />
 
-ReactDOM.render(
-  <Canvas style={{ width: '100%', height: '100%' }}>
-    <ambientLight />
-    <pointLight position={[10, 10, 10]} />
-    <Box position={[-1.2, 0, 0]} />
-    <Box position={[1.2, 0, 0]} />
-  </Canvas>,
-  document.getElementById('root')
-)
+      <MapControls />
+    </Canvas>
+  );
+};
+
+ReactDOM.render(<Main />, document.getElementById("root"));

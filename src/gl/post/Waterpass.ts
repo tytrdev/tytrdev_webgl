@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * @author alteredq / http://alteredqualia.com/
  */
@@ -14,7 +15,7 @@
  * angle: shift angle in radians
  */
 
-import { DataTexture, FloatType, Math as _Math, Mesh, OrthographicCamera, PlaneBufferGeometry, RGBFormat, Scene, ShaderMaterial, UniformsUtils } from 'three'
+import { DataTexture, FloatType, MathUtils as _Math, Mesh, OrthographicCamera, PlaneBufferGeometry, RGBFormat, Scene, ShaderMaterial, UniformsUtils } from 'three'
 import { Pass } from 'three/examples/jsm/postprocessing/Pass.js'
 
 var DigitalGlitch = {
@@ -83,7 +84,8 @@ var DigitalGlitch = {
     }`
 }
 
-var GlitchPass = function(dt_size) {
+var GlitchPass = function(dt_size: number) {
+  // @ts-ignore
   Pass.call(this)
   if (DigitalGlitch === undefined) console.error('THREE.GlitchPass relies on THREE.DigitalGlitch')
   var shader = DigitalGlitch
